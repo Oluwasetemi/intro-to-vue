@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Welcome to Vue </title>
+        <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+
+    <body>
+        <div class="container">
+            <div id="app2">
+                <img v-bind:src="avatar" alt="#1" height="400px" width="400px"> {{ onOff }}
+
+                <div v-text="message"></div>
+                <div v-if="onOff">On</div>
+                <div v-if="!onOff">Off</div>
+                <button @click="goCrazy">goCrazy</button>
+                <div class="box" v-bind:class="{green: onOff, hotpink: !onOff }">
+                </div>
+                <div class="box" v-bind:style="{backgroundColor: message}">
+                </div>
+                <input v-model="message" type="text" /> {{ message }}
+                <button v-on:click="toggle">{{ onOff }}</button>
+            </div>
+            <div id="app">
+                <div class="search-wrapper">
+                    <input v-model="keyword" type="text" placeholder="Search here" />
+                    <label for="text">Search Title</label>
+                </div>
+                <div class="wrapper">
+                    <div class="card" v-for="post in filteredList" :key="post.id">
+                        <h2>{{ post.author }}</h2>
+                        <a v-bind:href="post.link" target="_blank">
+                            {{ post.title }}
+                        </a>
+                        <img v-bind:src="post.image" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            class Post {
+                constructor(title, link, author, image) {
+                    this.title = title;
+                    this.link = link;
+                    this.author = author;
+                    this.image = image;
+                }
+            }
+
+            var app2 = new Vue({
+                el: '#app2',
+                data: {
+                    onOff: false,
+                    avatar: './words2017.png',
+                    message: ['ade', 'ope'],
+                    
+                },
+                methods: {
+                    goCrazy: function (e) {
+                        console.log(e);
+                        alert(e.target.textContent);
+                    },
+                    toggle: function () {
+                        this.onOff = !this.onOff;
+                    }
+                },
+                computed: {},
+            })
+
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello, world',
+                    keyword: '',
+                    avatar: './words2017.png',
+                    onOff: true,
+                    styleObj: {
+                        backgroundColor: 'red',
+                        width: '200px'
+                    },
+                    postList: [
+                        new Post(
+                            'Hello, World',
+                            'https://www.google.com',
+                            'Ojo Oluwasetemi Stephen',
+                            'https://i.gyazo.com/dee29463537bccdde961b4520f724387.png'
+                        ),
+                        new Post(
+                            'Vue',
+                            'https://www.google.com',
+                            'Ojo Oluwasetemi Stephen',
+                            'https://i.gyazo.com/dee29463537bccdde961b4520f724387.png'
+                        ),
+                        new Post(
+                            'JavaScript',
+                            'https://www.google.com',
+                            'Ojo Oluwasetemi Stephen',
+                            'https://i.gyazo.com/dee29463537bccdde961b4520f724387.png'
+                        ),
+                        new Post(
+                            'Pug',
+                            'https://www.google.com',
+                            'Ojo Oluwasetemi Stephen',
+                            'https://i.gyazo.com/dee29463537bccdde961b4520f724387.png'
+                        ),
+                        new Post(
+                            'React',
+                            'https://www.google.com',
+                            'Ojo Oluwasetemi Stephen',
+                            'https://i.gyazo.com/dee29463537bccdde961b4520f724387.png'
+                        ),
+                    ]
+                },
+                methods: {
+                    goCrazy: function (e) {
+                        console.log(e);
+                        alert(e.target.textContent);
+                    },
+                    toggle: function () {
+                        this.onOff = !this.onOff;
+                    }
+                },
+                computed: {
+                    filteredList() {
+                        return this.postList.filter(post => {
+                            return post.title.toLowerCase().includes(this.keyword.toLowerCase())
+
+                        })
+                    }
+                }
+            })
+        </script>
+    </body>
+
+</html>
